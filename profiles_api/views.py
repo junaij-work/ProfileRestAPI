@@ -1,9 +1,12 @@
 from rest_framework.views import APIView
 from rest_framework.response import Response
-
+from rest_framework import status
+from profiles_api import serializers
 
 class HelloApiView(APIView):
     """Test API View"""
+
+    serializer_class = serializers.HelloApiSerializer;
 
     def get(self, request, format=None):
         """Returns a list of APIView features"""
@@ -16,3 +19,33 @@ class HelloApiView(APIView):
         ]
 
         return Response({'message': 'Hello!', 'an_apiview': an_apiview})
+
+    def post(self, request):
+        """Handler for HTTP POST"""
+
+        serializer = self.serializer_class(data=request.data)
+
+        if serializer.is_valid():
+            name = serializer.validated_data.get('name')
+            message = f'Hello {name}'
+            return Response({'Message': message})
+        else:
+            return Response(
+                serializer.errors,
+                status = status.HTTP_400_BAD_REQUEST
+            )
+
+    def put(self, request, pk=None):
+        """Handler for HTTP PUT"""
+
+        return Response({'Method': 'PUT'})
+
+    def patch(self, request, pk=None):
+        """Handler for HTTP PATCH"""
+
+        return Response({'Method': 'PATCH'})
+
+    def delete(self, request, pk=None):
+        """Handler for HTTP DELETE"""
+
+        return Response({'Method': 'DELETE'})
