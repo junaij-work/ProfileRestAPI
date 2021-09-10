@@ -110,7 +110,7 @@ class HellloViewSet(viewsets.ViewSet):
 
 
 class UserProfileViewSet(viewsets.ModelViewSet):
-    """Handle views for profile api"""
+    """Handle views for profile API"""
 
     serializer_class = serializers.ProfileSerializer
     queryset = models.UserProfile.objects.all()
